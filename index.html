@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Для тебя 💕</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Caveat:wght@500;600;700&family=Montserrat:wght@400;500;600&display=swap&subset=cyrillic,cyrillic-ext"
+      rel="stylesheet" />
+    <style>
+      /* =====================================================================
+   ПАЛИТРА И ТОКЕНЫ
+   ===================================================================== */
+      :root {
+        --blush: #fff2f6;
+        --petal: #ffd9e6;
+        --lavender: #efe6ff;
+        --cream: #fffaf6;
+        --rose: #ff7aa8;
+        --rose-deep: #e15c86;
+        --plum: #7a3d5d;
+        --plum-soft: #9b6585;
+        --glass: rgba(255, 255, 255, 0.55);
+        --glass-line: rgba(255, 255, 255, 0.85);
+        --shadow: 0 18px 40px rgba(225, 92, 134, 0.22);
+        --shadow-sm: 0 8px 22px rgba(225, 92, 134, 0.18);
+        --font-script: "Marck Script", "Caveat", cursive;
+        --font-hand: "Caveat", "Marck Script", cursive;
+        --font-ui: "Montserrat", system-ui, sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: var(--font-ui);
+        color: var(--plum);
+        overflow: hidden;
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            120% 120% at 15% 10%,
+            var(--lavender) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            120% 120% at 85% 90%,
+            var(--petal) 0%,
+            transparent 55%
+          ),
+          linear-gradient(
+            160deg,
+            var(--blush) 0%,
+            var(--cream) 50%,
+            var(--petal) 120%
+          );
+        background-size: 200% 200%;
+        animation: drift 22s ease-in-out infinite;
+      }
+      @keyframes drift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      /* =====================================================================
+   ФОНОВЫЕ ЛЕПЕСТКИ / СЕРДЕЧКИ / КОШЕЧКИ
+   ===================================================================== */
+      .sky {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .float {
+        position: absolute;
+        top: -12%;
+        font-size: 1.6rem;
+        opacity: 0;
+        animation: fall linear infinite;
+        will-change: transform;
+        filter: drop-shadow(0 3px 4px rgba(225, 92, 134, 0.18));
+      }
+      @keyframes fall {
+        0% {
+          transform: translateY(-10vh) rotate(0deg) translateX(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.9;
+        }
+        90% {
+          opacity: 0.9;
+        }
+        100% {
+          transform: translateY(112vh) rotate(360deg) translateX(40px);
+          opacity: 0;
+        }
+      }
+
+      /* Кошечка, выглядывающая из угла */
+      .kitty {
+        position: fixed;
+        left: 14px;
+        bottom: -6px;
+        z-index: 20;
+        font-size: clamp(2.4rem, 8vw, 3.4rem);
+        animation: peek 5s ease-in-out infinite;
+        cursor: pointer;
+        user-select: none;
+        background: none;
+        border: none;
+        padding: 6px;
+        filter: drop-shadow(0 6px 8px rgba(225, 92, 134, 0.25));
+        transition: transform 0.15s ease;
+      }
+      .kitty:hover {
+        filter: drop-shadow(0 8px 10px rgba(225, 92, 134, 0.35));
+      }
+      .kitty:active {
+        transform: scale(0.88);
+      }
+      .kitty:focus-visible {
+        outline: 3px solid var(--rose);
+        outline-offset: 4px;
+        border-radius: 14px;
+      }
+      .kitty.mew {
+        animation: mew 0.55s ease;
+      }
+      @keyframes peek {
+        0%,
+        100% {
+          transform: translateY(14px) rotate(-4deg);
+        }
+        50% {
+          transform: translateY(-4px) rotate(4deg);
+        }
+      }
+      @keyframes mew {
+        0% {
+          transform: translateY(14px) scale(1) rotate(-4deg);
+        }
+        30% {
+          transform: translateY(-14px) scale(1.18, 0.86) rotate(3deg);
+        }
+        55% {
+          transform: translateY(-2px) scale(0.92, 1.12) rotate(-3deg);
+        }
+        100% {
+          transform: translateY(14px) scale(1) rotate(-4deg);
+        }
+      }
+      .mew-bubble {
+        position: fixed;
+        z-index: 25;
+        pointer-events: none;
+        font-family: var(--font-hand);
+        font-weight: 700;
+        font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+        color: var(--rose-deep);
+        text-shadow: 0 2px 0 rgba(255, 255, 255, 0.75);
+        animation: mewFloat 1.1s ease-out forwards;
+      }
+      @keyframes mewFloat {
+        0% {
+          opacity: 0;
+          transform: translateY(6px) scale(0.7);
+        }
+        25% {
+          opacity: 1;
+          transform: translateY(-6px) scale(1.05);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-48px) scale(1);
+        }
+      }
+
+      /* =====================================================================
+   ИНТРО С КОМПЛИМЕНТОМ
+   ===================================================================== */
+      .intro {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 8vw;
+        background: radial-gradient(
+          140% 120% at 50% 25%,
+          var(--cream) 0%,
+          var(--blush) 45%,
+          var(--petal) 110%
+        );
+        transition:
+          opacity 1s ease,
+          transform 1s ease;
+      }
+      .intro.hide {
+        opacity: 0;
+        transform: scale(1.06);
+        pointer-events: none;
+      }
+
+      .intro .seal {
+        font-size: clamp(3rem, 14vw, 5.2rem);
+        animation: beat 1.6s ease-in-out infinite;
+        margin-bottom: 0.4em;
+        opacity: 0;
+        animation-delay: 0.1s;
+        animation:
+          beat 1.6s ease-in-out infinite,
+          bloomIn 1.1s 0.1s ease both;
+      }
+      .intro .compliment {
+        font-family: var(--font-script);
+        font-size: clamp(1.9rem, 7vw, 3.4rem);
+        line-height: 1.25;
+        color: var(--plum);
+        max-width: 18ch;
+        text-wrap: balance;
+        opacity: 0;
+        animation: bloomIn 1.2s 0.55s ease both;
+      }
+      .intro .enter {
+        margin-top: 2.2em;
+        font-family: var(--font-hand);
+        font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+        color: var(--rose-deep);
+        opacity: 0;
+        animation:
+          bloomIn 1s 1.7s ease both,
+          sway 2.4s 2.7s ease-in-out infinite;
+      }
+      .intro .enter b {
+        font-weight: 700;
+      }
+      @keyframes bloomIn {
+        0% {
+          opacity: 0;
+          transform: translateY(18px) scale(0.94);
+          filter: blur(6px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          filter: blur(0);
+        }
+      }
+      @keyframes beat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        30% {
+          transform: scale(1.12);
+        }
+      }
+      @keyframes sway {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(6px);
+        }
+      }
+
+      /* =====================================================================
+   ГЛАВНЫЙ ЭКРАН
+   ===================================================================== */
+      .stage {
+        position: relative;
+        z-index: 5;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(0.7rem, 2.6vh, 1.6rem);
+        padding: clamp(1rem, 4vw, 2rem);
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 1.1s ease,
+          transform 1.1s ease;
+      }
+      .stage.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .title {
+        font-family: var(--font-script);
+        font-size: clamp(2.2rem, 9vw, 4rem);
+        line-height: 1.05;
+        color: var(--plum);
+        text-shadow: 0 3px 0 rgba(255, 255, 255, 0.6);
+      }
+      .title .em {
+        color: var(--rose-deep);
+      }
+
+      .ribbon {
+        font-family: var(--font-hand);
+        font-size: clamp(1.15rem, 4.6vw, 1.7rem);
+        color: var(--plum-soft);
+        min-height: 2.6em;
+        max-width: 24ch;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-wrap: balance;
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .ribbon.swap {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      .hint {
+        font-family: var(--font-ui);
+        font-size: clamp(0.78rem, 3vw, 0.95rem);
+        letter-spacing: 0.02em;
+        color: var(--plum-soft);
+        opacity: 0.85;
+      }
+
+      /* Сетка кнопок-желаний */
+      .wishes {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(0.7rem, 2.6vw, 1.1rem);
+        width: min(440px, 92vw);
+        margin-top: 0.3rem;
+      }
+      .wish {
+        position: relative;
+        font-family: var(--font-hand);
+        font-size: clamp(1.05rem, 4.4vw, 1.45rem);
+        font-weight: 700;
+        color: var(--plum);
+        background: var(--glass);
+        border: 1.5px solid var(--glass-line);
+        border-radius: 26px;
+        padding: clamp(0.9rem, 3.6vw, 1.3rem) 0.6rem
+          clamp(0.8rem, 3.2vw, 1.15rem);
+        cursor: pointer;
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35em;
+        transition:
+          transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.25s ease,
+          background 0.25s ease;
+        overflow: hidden;
+      }
+      .wish .ico {
+        font-size: clamp(1.9rem, 8vw, 2.6rem);
+        line-height: 1;
+      }
+      .wish::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          160deg,
+          rgba(255, 255, 255, 0.5),
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+      .wish:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: var(--shadow);
+        background: rgba(255, 255, 255, 0.7);
+      }
+      .wish:hover::before {
+        opacity: 1;
+      }
+      .wish:active {
+        transform: scale(0.96);
+      }
+      .wish.pop {
+        animation: pop 0.5s ease;
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(1);
+        }
+        40% {
+          transform: scale(1.08);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .wish:focus-visible {
+        outline: 3px solid var(--rose);
+        outline-offset: 3px;
+      }
+
+      /* =====================================================================
+   ТОСТ-ПОДТВЕРЖДЕНИЕ
+   ===================================================================== */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: max(28px, env(safe-area-inset-bottom));
+        transform: translate(-50%, 140%);
+        z-index: 40;
+        font-family: var(--font-hand);
+        font-weight: 700;
+        font-size: clamp(1.05rem, 4vw, 1.35rem);
+        color: #fff;
+        background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+        padding: 0.7em 1.4em;
+        border-radius: 999px;
+        box-shadow: var(--shadow);
+        white-space: nowrap;
+        transition:
+          transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.4s ease;
+        opacity: 0;
+      }
+      .toast.show {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+
+      /* Частицы-сердечки при нажатии */
+      .burst {
+        position: fixed;
+        z-index: 35;
+        pointer-events: none;
+        font-size: 1.4rem;
+        will-change: transform, opacity;
+      }
+      @keyframes burstUp {
+        0% {
+          transform: translate(0, 0) scale(0.6) rotate(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(var(--bx), var(--by)) scale(1.1)
+            rotate(var(--br));
+          opacity: 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.2s !important;
+        }
+        body {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="sky"
+      id="sky"
+      aria-hidden="true"></div>
+    <button
+      class="kitty"
+      id="kitty"
+      type="button"
+      aria-label="Погладить котика">
+      🐱
+    </button>
+
+    <!-- ИНТРО -->
+    <section
+      class="intro"
+      id="intro"
+      role="button"
+      tabindex="0"
+      aria-label="Войти">
+      <div class="seal">💌</div>
+      <p
+        class="compliment"
+        id="introCompliment">
+        …
+      </p>
+      <p class="enter">нажми, чтобы войти <b>💕</b></p>
+    </section>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <main
+      class="stage"
+      id="stage"
+      aria-hidden="true">
+      <h1 class="title">
+        Для тебя,
+        <span
+          class="em"
+          id="nameSlot"
+          >любимая</span
+        >
+        💕
+      </h1>
+      <p
+        class="ribbon"
+        id="ribbon">
+        …
+      </p>
+      <p class="hint">Выбери желание — и я уже бегу его исполнять 💌</p>
+
+      <div class="wishes">
+        <button
+          class="wish"
+          data-wish="свидание">
+          <span class="ico">🌷</span> Хочу свидание
+        </button>
+        <button
+          class="wish"
+          data-wish="обнимашки">
+          <span class="ico">🤗</span> Хочу обнимашек
+        </button>
+        <button
+          class="wish"
+          data-wish="поцелуй">
+          <span class="ico">💋</span> Хочу поцелуй
+        </button>
+        <button
+          class="wish"
+          data-wish="покушать">
+          <span class="ico">🍰</span> Хочу покушать
+        </button>
+      </div>
+    </main>
+
+    <div
+      class="toast"
+      id="toast"
+      role="status"
+      aria-live="polite"></div>
+
+    <script>
+      /* =====================================================================
+   ⚙️  НАСТРОЙКИ — заполни ОДИН из способов уведомления (или оба)
+   ===================================================================== */
+      const CONFIG = {
+        // Имя девушки (покажется на главной)
+        name: "любимая",
+
+        // Звук котика: положи рядом со страницей файл с этим именем (любой бесплатный звук).
+        // Если файла нет или он не проигрывается — сыграет синтезированный мяв.
+        soundFile: "meow.mp3",
+
+        // 1) TELEGRAM — мгновенное уведомление тебе в чат (рекомендую).
+        //    Как получить:
+        //    - напиши @BotFather в Telegram → /newbot → получишь token
+        //    - напиши своему боту любое сообщение, затем открой в браузере:
+        //      https://api.telegram.org/bot<ТВОЙ_TOKEN>/getUpdates  → возьми оттуда chat id
+        telegram: {
+          token: "8983417985:AAFkWjXRa5MK6EFBAgNxD5bdnYcZ4hXN0eA", // напр. "1234567890:AAExxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          chatId: "459252941", // напр. "123456789"
+        },
+
+        // 2) EMAIL через Formspree — письмо тебе на почту.
+        //    Зарегистрируйся на formspree.io → создай форму → вставь её endpoint:
+        formspree: {
+          endpoint: "", // напр. "https://formspree.io/f/abcdwxyz"
+        },
+      };
+
+      /* =====================================================================
+   КОМПЛИМЕНТЫ
+   ===================================================================== */
+      const COMPLIMENTS = [
+        "Ты — моё самое любимое «доброе утро» 🌅",
+        "С тобой даже обычный день становится праздником 🎀",
+        "Твоя улыбка — мой любимый вид на свете 🌸",
+        "Я выбираю тебя. Снова и снова 💗",
+        "Рядом с тобой я как дома 🏡",
+        "Ты делаешь меня лучше, просто будучи собой ✨",
+        "Каждое «мы» с тобой — моё любимое слово 💕",
+        "Ты красивая — и снаружи, и внутри 🌷",
+        "Моё сердце всё ещё подпрыгивает, когда ты рядом 💓",
+        "С тобой хочется быть и нежным, и смелым 🦋",
+        "Ты — лучшее, что случилось со мной 🍀",
+        "Хочу обнимать тебя долго-долго 🤍",
+        "Ты пахнешь весной и счастьем 🌼",
+        "Я люблю тебя больше, чем умею сказать словами 💞",
+      ];
+
+      const WISH_LABELS = {
+        свидание: { word: "свидание", ico: "🌷" },
+        обнимашки: { word: "обнимашки", ico: "🤗" },
+        поцелуй: { word: "поцелуй", ico: "💋" },
+        покушать: { word: "покушать", ico: "🍰" },
+      };
+
+      const FLOAT_GLYPHS = [
+        "🌸",
+        "💗",
+        "🌷",
+        "🐱",
+        "💕",
+        "🌺",
+        "🤍",
+        "🌼",
+        "🐾",
+        "💞",
+        "🌹",
+        "😺",
+      ];
+
+      /* ---------- помощники ---------- */
+      const $ = (s) => document.querySelector(s);
+      const rnd = (a, b) => Math.random() * (b - a) + a;
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+      /* ---------- имя ---------- */
+      $("#nameSlot").textContent = CONFIG.name || "любимая";
+
+      /* ---------- фоновые лепестки ---------- */
+      (function makeSky() {
+        const sky = $("#sky");
+        const count = window.innerWidth < 480 ? 16 : 26;
+        for (let i = 0; i < count; i++) {
+          const s = document.createElement("span");
+          s.className = "float";
+          s.textContent = pick(FLOAT_GLYPHS);
+          s.style.left = rnd(0, 100) + "vw";
+          s.style.fontSize = rnd(1.1, 2.4) + "rem";
+          s.style.animationDuration = rnd(9, 20) + "s";
+          s.style.animationDelay = rnd(-20, 0) + "s";
+          sky.appendChild(s);
+        }
+      })();
+
+      /* ---------- интро ---------- */
+      $("#introCompliment").textContent = pick(COMPLIMENTS);
+
+      let entered = false;
+      function enter() {
+        if (entered) return;
+        entered = true;
+        $("#intro").classList.add("hide");
+        const stage = $("#stage");
+        stage.classList.add("show");
+        stage.setAttribute("aria-hidden", "false");
+        startRibbon();
+      }
+      $("#intro").addEventListener("click", enter);
+      $("#intro").addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") enter();
+      });
+
+      /* ---------- лента комплиментов на главной ---------- */
+      function startRibbon() {
+        const el = $("#ribbon");
+        let pool = [...COMPLIMENTS].sort(() => Math.random() - 0.5);
+        let i = 0;
+        const next = () => {
+          el.textContent = pool[i % pool.length];
+          i++;
+        };
+        next();
+        setInterval(() => {
+          el.classList.add("swap");
+          setTimeout(() => {
+            next();
+            el.classList.remove("swap");
+          }, 600);
+        }, 4200);
+      }
+
+      /* ---------- кнопки-желания ---------- */
+      document.querySelectorAll(".wish").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const key = btn.dataset.wish;
+          const data = WISH_LABELS[key];
+          btn.classList.remove("pop");
+          void btn.offsetWidth;
+          btn.classList.add("pop");
+          heartBurst(
+            e.clientX || window.innerWidth / 2,
+            e.clientY || window.innerHeight / 2,
+            data.ico,
+          );
+          showToast(`Желание отправлено: ${data.word} ${data.ico}`);
+          notify(data.word, data.ico);
+        });
+      });
+
+      /* ---------- тост ---------- */
+      let toastTimer;
+      function showToast(text) {
+        const t = $("#toast");
+        t.textContent = text;
+        t.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove("show"), 2600);
+      }
+
+      /* ---------- сердечки-частицы ---------- */
+      function heartBurst(x, y, glyph) {
+        const glyphs = [glyph, "💗", "💕", "🌸", "✨", "🤍"];
+        const n = 16;
+        for (let i = 0; i < n; i++) {
+          const p = document.createElement("span");
+          p.className = "burst";
+          p.textContent = pick(glyphs);
+          p.style.left = x + "px";
+          p.style.top = y + "px";
+          const ang = rnd(0, Math.PI * 2);
+          const dist = rnd(60, 170);
+          p.style.setProperty("--bx", Math.cos(ang) * dist + "px");
+          p.style.setProperty(
+            "--by",
+            Math.sin(ang) * dist - rnd(40, 120) + "px",
+          );
+          p.style.setProperty("--br", rnd(-180, 180) + "deg");
+          p.style.fontSize = rnd(1, 2) + "rem";
+          p.style.animation = `burstUp ${rnd(0.8, 1.3)}s ease-out forwards`;
+          document.body.appendChild(p);
+          setTimeout(() => p.remove(), 1400);
+        }
+      }
+
+      /* ---------- УВЕДОМЛЕНИЯ ---------- */
+      async function notify(word, ico) {
+        const when = new Date().toLocaleString("ru-RU");
+        const text = `💕 ${CONFIG.name || "Она"} нажала «${word}» ${ico}\n🕒 ${when}`;
+
+        // Telegram
+        const tg = CONFIG.telegram;
+        if (tg && tg.token && tg.chatId) {
+          try {
+            await fetch(`https://api.telegram.org/bot${tg.token}/sendMessage`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ chat_id: tg.chatId, text }),
+            });
+          } catch (err) {
+            console.warn("Telegram:", err);
+          }
+        }
+
+        // Formspree (email)
+        const fs = CONFIG.formspree;
+        if (fs && fs.endpoint) {
+          try {
+            await fetch(fs.endpoint, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify({
+                желание: word,
+                время: when,
+                сообщение: text,
+              }),
+            });
+          } catch (err) {
+            console.warn("Formspree:", err);
+          }
+        }
+      }
+
+      /* =====================================================================
+   КОТИК: МЯУ 🐱
+   ===================================================================== */
+      let audioCtx;
+      function getCtx() {
+        if (!audioCtx)
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+        return audioCtx;
+      }
+
+      // Синтез мяуканья (контур «ме-оу» + вибрато + фильтр)
+      function meowSound() {
+        let ctx;
+        try {
+          ctx = getCtx();
+        } catch (e) {
+          return;
+        }
+        const t0 = ctx.currentTime;
+        const dur = 0.55 + Math.random() * 0.12;
+        const base = 460 + Math.random() * 130;
+
+        const master = ctx.createGain();
+        master.gain.setValueAtTime(0.0001, t0);
+        master.gain.exponentialRampToValueAtTime(0.3, t0 + 0.04);
+        master.gain.setValueAtTime(0.3, t0 + dur * 0.5);
+        master.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+
+        const lp = ctx.createBiquadFilter();
+        lp.type = "lowpass";
+        lp.Q.value = 7;
+        lp.frequency.setValueAtTime(1400, t0);
+        lp.frequency.linearRampToValueAtTime(2800, t0 + dur * 0.25);
+        lp.frequency.linearRampToValueAtTime(800, t0 + dur);
+        master.connect(lp);
+        lp.connect(ctx.destination);
+
+        // вибрато к концу мяу
+        const lfo = ctx.createOscillator();
+        lfo.frequency.value = 17;
+        const lfoGain = ctx.createGain();
+        lfoGain.gain.setValueAtTime(0, t0);
+        lfoGain.gain.setValueAtTime(0, t0 + dur * 0.45);
+        lfoGain.gain.linearRampToValueAtTime(18, t0 + dur);
+        lfo.connect(lfoGain);
+        lfo.start(t0);
+        lfo.stop(t0 + dur + 0.05);
+
+        [
+          ["sawtooth", 0, 0.6],
+          ["triangle", 6, 0.45],
+        ].forEach(([type, det, g]) => {
+          const osc = ctx.createOscillator();
+          osc.type = type;
+          osc.detune.value = det;
+          osc.frequency.setValueAtTime(base * 0.85, t0);
+          osc.frequency.linearRampToValueAtTime(base * 1.3, t0 + dur * 0.16);
+          osc.frequency.setValueAtTime(base * 1.22, t0 + dur * 0.42);
+          osc.frequency.linearRampToValueAtTime(base * 0.68, t0 + dur);
+          lfoGain.connect(osc.frequency);
+          const og = ctx.createGain();
+          og.gain.value = g;
+          osc.connect(og);
+          og.connect(master);
+          osc.start(t0);
+          osc.stop(t0 + dur + 0.05);
+        });
+      }
+
+      const kitty = $("#kitty");
+
+      // Пробуем подгрузить звуковой файл; если его нет — играем синтез
+      let soundReady = false;
+      if (CONFIG.soundFile) {
+        const probe = new Audio(CONFIG.soundFile);
+        probe.preload = "auto";
+        probe.addEventListener(
+          "canplaythrough",
+          () => {
+            soundReady = true;
+          },
+          { once: true },
+        );
+        probe.addEventListener("error", () => {
+          soundReady = false;
+        });
+      }
+      function playMeow() {
+        if (soundReady) {
+          const a = new Audio(CONFIG.soundFile);
+          a.volume = 0.9;
+          a.play().catch(() => meowSound());
+        } else {
+          meowSound();
+        }
+      }
+
+      function petKitty() {
+        playMeow();
+        kitty.classList.remove("mew");
+        void kitty.offsetWidth;
+        kitty.classList.add("mew");
+        const r = kitty.getBoundingClientRect();
+        // всплывающее «Мяу~»
+        const b = document.createElement("span");
+        b.className = "mew-bubble";
+        b.textContent = pick(["Мяу~", "Мур~", "Мяу!", "Мрр~"]);
+        b.style.left = r.left + r.width * 0.55 + "px";
+        b.style.top = r.top - 4 + "px";
+        document.body.appendChild(b);
+        setTimeout(() => b.remove(), 1200);
+        // лапки и сердечки
+        heartBurst(r.left + r.width / 2, r.top + r.height / 3, "🐾");
+      }
+      kitty.addEventListener("click", petKitty);
+      kitty.addEventListener("animationend", () =>
+        kitty.classList.remove("mew"),
+      );
+    </script>
+  </body>
+</html>
